@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset=utf-8>
+	<title>NSSC Major Mover (1st Declared Majr)</title>
+	<meta name=description content="Undergraduate Major Movers: NSSC first declared major to degree major">
+	<meta name=viewport content="width=device-width, initial-scale=1.0">
+	<!--[if lt IE 9]><script src=/dashboards/majors/html5shiv-printshiv.js></script><![endif]-->
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="./javascript.js"></script>
+    <link rel="stylesheet" href="styles.css"/>
+   
+
+</head>
+<body>
+  
+  <div id=container class="container">
+   
+   	<header role="banner">
+        <h1 style="text-align:center">NSSC Major Moves</h1><h2 style="text-align:center">First Declared Majors To Degree Majors <u>(click the arcs to drill down to major level)</u></h2><h3 style="text-align:center">Cohort : 2005-2009</h3>
+		
+		<!--<div class="lead-in">
+		This visualization shows undergraduate students who changed their major in Fall semesters from 2010 to 2014.
+		</div> -->
+	<hr>
+	</header>	
+   
+
+<select id = "opts">
+<option value="data1" >data1</option>
+<option value="data" >data2</option> 
+<option value="data2" selected="selected" >data3</option>
+  <!-- and so on... -->   
+  </select>   
+
+<!--script>
+function setActiveStyleSheet(delay) {
+var myElement = document.querySelector("#circle");
+myElement.style.opacity = 0.25;
+}
+</script>
+<div onClick="setActiveStyleSheet(80)">test</div
+-->
+
+
+	<div id="message" class="wrap">
+		<main role="main">
+		<nav role=navigation>
+		<div id="timeline"></div>
+		</nav>		
+		<div id="chart"></div>
+		</main>
+	</div>
+  <div id="diagram" ></div>
+
+   
+      
+<script>
+  
+ 
+    
+    function graphic (data) {
+      var datafile = 'json/'+data+ '.json';
+        
+      var aLittleBit = Math.PI / 100000;
+        
+        
+ d3.json(datafile, function(data) {
+      var now = "2005";
+      var labelCustom = " ";
+      var chart = Globalmigration.chart(data, {
+        element: '#diagram',
+        now: "2005",
+        animationDuration: 700,
+        margin: 100,
+        arcPadding: 0.01,
+	maxRegionsOpen: 10,
+        layout: {
+          threshold: 1,
+          labelThreshold: 10,
+		  colors: '1f78b4 800026 00441b FF5733 33a02c 750657 e31a1c 00a592 41ae76 cab2d6 EEE81B 062975 80cdc1 5ACFDD e7298a 6a3d9a     062975'.split(' ').map(function(c) { return '#' + c; })
+        }
+      });
+     Globalmigration.timeline(chart, {
+        now: "2005",
+        element: '#timeline',
+	   labelCustom: labelCustom
+      }); 
+      chart.draw(now);
+     });
+    };
+    
+    
+    
+ d3.select('#opts')
+  .on('change', function() {
+       
+           d3.selectAll("text").remove();
+     
+        var newData = d3.select(this).property('value');
+        graphic(newData);
+      // console.log(y);
+    
+});
+
+ 
+        
+   
+
+
+	</script>
+	<footer role="contentinfo">
+
+ 		<div class="license">
+           
+		This visualization is updated on 8/9/2016
+		</div>
+		
+	</footer>
+
+</body>
+</html>

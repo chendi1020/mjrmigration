@@ -59,7 +59,7 @@ a:hover {
 .container {
   margin: 0 auto;
   min-width: 500px;
-  max-width: 1180px;
+  max-width: 980px;
   
   background-color: #FFFEFF;
   -moz-box-shadow: 0 0 15px #000;
@@ -194,7 +194,12 @@ main {
 #diagram {
   text-align: center;
 }
-
+#opts {
+  text-align: center;
+    padding-left: 10px;
+    position: relative;
+    left: 330px;
+}
 .clear {
   clear: both;
 }
@@ -356,8 +361,10 @@ text.fade {
 }
 text.region {
   font-family: 'CartoGothic', Arial, sans-serif;
-  font-size: 14px;
+  font-size: 11px;
+    padding-bottom: 5px;
 }
+
 .chord {
   opacity: 0.75;
 }

@@ -17,7 +17,7 @@
   <div id=container class="container">
    
    	<header role="banner">
-        <h1 style="text-align:center">NSSC Major Moves</h1><h2 style="text-align:center">First Declared Majors To Degree Majors <u>(click the arcs to drill down to major level)</u></h2><h3 style="text-align:center">Cohort : 2005-2009</h3>
+        <h1 style="text-align:center">UNFRST Major Migration</h1><h2 style="text-align:center">First Majors To Degree Majors By First College <u>(click the arcs to drill down to major level)</u></h2><h3 style="text-align:center">Cohort : 2005-2009</h3>
 		
 		<!--<div class="lead-in">
 		This visualization shows undergraduate students who changed their major in Fall semesters from 2010 to 2014.
@@ -27,9 +27,25 @@
    
 
 <select id = "opts">
-<option value="data1" >data1</option>
-<option value="data" >data2</option> 
-<option value="data2" selected="selected" >data3</option>
+
+    <option value="data2" >Agriculture and Natural Resources</option> 
+    
+    <option value="data4" >Arts and Letters</option>
+    <option value="data6" >Resdntl Arts and Humanities</option> 
+    <option value="data8" >Business</option> 
+    <option value="data10" >COMM ARTS</option>
+    <option value="data14" >EDUCATION</option>
+    <option value="data16" >Engineering</option>
+    <option value="data20" >Human Ecology</option>
+    <option value="data24" >James Madison</option>
+     <option value="data28" >Lyman Briggs</option>
+    <option value="data30" >Music</option>
+    <option value="data32" >Natural Science</option>
+    <option value="data33" >Nursing</option>
+    <option value="data38" >Social Science</option>
+    <option value="data43" >Assoc Prov Undergraduate Education</option>
+     <option value="data46" >Veterinary Medicine</option>
+
   <!-- and so on... -->   
   </select>   
 
@@ -60,17 +76,17 @@ myElement.style.opacity = 0.25;
  
     
     function graphic (data) {
-      var datafile = 'json/'+data+ '.json';
+      var datafile = 'testjsonfile/'+data+ '.json';
         
       var aLittleBit = Math.PI / 100000;
         
         
  d3.json(datafile, function(data) {
-      var now = "2005";
+      var now = "All";
       var labelCustom = " ";
       var chart = Globalmigration.chart(data, {
         element: '#diagram',
-        now: "2005",
+        now: "All",
         animationDuration: 700,
         margin: 100,
         arcPadding: 0.01,
@@ -82,7 +98,7 @@ myElement.style.opacity = 0.25;
         }
       });
      Globalmigration.timeline(chart, {
-        now: "2005",
+        now: "All",
         element: '#timeline',
 	   labelCustom: labelCustom
       }); 
@@ -90,6 +106,35 @@ myElement.style.opacity = 0.25;
      });
     };
     
+    
+   (function() {
+      var datafile = 'testjsonfile/data2.json';
+        
+      var aLittleBit = Math.PI / 100000;
+ d3.json(datafile, function(data) {
+      var now = "All";
+      var labelCustom = " ";
+      var chart = Globalmigration.chart(data, {
+        element: '#diagram',
+        now: now,
+        animationDuration: 700,
+        margin: 100,
+        arcPadding: 0.01,
+	maxRegionsOpen: 10,
+        layout: {
+          threshold: 1,
+          labelThreshold: 10,
+		  colors: '1f78b4 800026 00441b FF5733 33a02c 750657 e31a1c 00a592 41ae76 cab2d6 EEE81B 062975 80cdc1 5ACFDD e7298a 6a3d9a     062975'.split(' ').map(function(c) { return '#' + c; })
+        }
+      });
+     Globalmigration.timeline(chart, {
+        now: now,
+        element: '#timeline',
+	labelCustom: labelCustom
+      }); 
+      chart.draw(now);
+     });
+    })();
     
     
  d3.select('#opts')
@@ -113,7 +158,7 @@ myElement.style.opacity = 0.25;
 
  		<div class="license">
            
-		This visualization is updated on 8/9/2016
+		This visualization is updated on 9/8/2016
 		</div>
 		
 	</footer>

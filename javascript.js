@@ -1140,7 +1140,7 @@ window.Modernizr = function(a, b, c) {
          console.log(d);   
     var yr =form.selectAll("text").data([d]);
         yr.enter().append("text");
-        yr.text(function(d) { return 'selected yr:'+   d;});
+        yr.text(function(d) { return 'selected cohort:'+   d;});
        yr.exit().remove();
         
       });

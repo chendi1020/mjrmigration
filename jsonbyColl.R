@@ -243,3 +243,5 @@ cat(jsonOut)
 
 sink()
 }
+
+##need to remote the empty year dynamically

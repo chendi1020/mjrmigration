@@ -361,8 +361,8 @@ text.fade {
 }
 text.region {
   font-family: 'CartoGothic', Arial, sans-serif;
-  font-size: 11px;
-    padding-bottom: 5px;
+  font-size: 15px;
+    padding-bottom: 50px;
 }
 
 .chord {

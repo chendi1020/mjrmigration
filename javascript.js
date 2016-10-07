@@ -8172,10 +8172,10 @@ d3 = function() {
     // arc path generator
     var textPathArc = d3.svg.arc()
         .innerRadius(config.outerRadius + 10)
-        .outerRadius(config.outerRadius + 10);
+        .outerRadius(config.outerRadius + 20);
     var textPathArc2 = d3.svg.arc()
         .innerRadius(config.outerRadius + 18)
-        .outerRadius(config.outerRadius + 18);
+        .outerRadius(config.outerRadius + 28);
 
     // arc generator
     var arc = d3.svg.arc()
@@ -8571,7 +8571,7 @@ d3 = function() {
         .append("g")
         .attr('class', 'label');
       groupTextGroup
-        .filter(function(d) {return d.id !== d.region})
+        //.filter(function(d) {return d.id !== d.region})
         .transition()
         .duration(config.animationDuration)
         .attrTween("transform", function(d) {
@@ -8596,10 +8596,10 @@ d3 = function() {
           var angle = region && (region.startAngle + (region.endAngle - region.startAngle) / 2);
           angle = angle || 0;
           var i = d3.interpolate(d, { angle: angle });
-          return function (t) {
-            var t = labelPosition(i(t).angle);
-            return 'translate(' + t.x + ' ' + t.y + ') rotate(' + t.r + ')';
-          };
+          //return function (t) {
+        //    var t = labelPosition(i(t).angle);
+          //  return 'translate(' + t.x + ' ' + t.y + ') rotate(' + t.r + ')';
+          //};
         })
         .each('end', function() {
           d3.select(this).remove();
@@ -8618,15 +8618,16 @@ d3 = function() {
           if (d.id !== d.region) {
             return data.names[d.id];
           } 
+          else {return data.names[d.id];}
         })
         .attr('transform', function(d) {
-          if (d.id !== d.region) {
+         // if (d.id !== d.region) {
             return d.angle > Math.PI ? 'translate(0, -4) rotate(180)' : 'translate(0, 4)';
-          }
+          //}
         })
         .attr('text-anchor', function(d) {
           return d.id === d.region ?
-            'middle' :
+           (d.angle > Math.PI ? 'end' : 'start') :
             (d.angle > Math.PI ? 'end' : 'start');
         })
         .style('fill', function(d) {
@@ -8634,7 +8635,8 @@ d3 = function() {
         })
         .classed('fade', function(d) {
           // hide labels for countries with little migrations
-          return d.value < config.layout.labelThreshold;
+          
+          return   d.value < config.layout.labelThreshold;
         });
 
       // path for text-on-path
@@ -8668,20 +8670,20 @@ d3 = function() {
       var groupTextPath = groupText
         .filter(function(d) {return d.id === d.region})
         .selectAll('textPath')
-        .data(function(d) { return [d]; });
-      groupTextPath
-        .enter()
-        .append("textPath")
-      groupTextPath
-        .text(function(d) { return data.names[d.id]; })
-        .attr('startOffset', function(d) {
-          if (d.angle > Math.PI/2 && d.angle < Math.PI*3/2) {
-            return '75%';
-          } else {
-            return '25%';
-          }
-        })
-        .attr("xlink:href", function(d, i, k) { return "#group-textpath-arc" + d.id; });
+        //.data(function(d) { return [d]; });
+      //groupTextPath
+    //    .enter()
+      //  .append("textPath")
+      //groupTextPath
+        //.text(function(d) { return data.names[d.id]; })
+        //.attr('startOffset', function(d) {
+        //  if (d.angle > Math.PI/2 && d.angle < Math.PI*3/2) {
+          //  return '75%';
+          //} else {
+        //    return '25%';
+          //}
+        //})
+        //.attr("xlink:href", function(d, i, k) { return "#group-textpath-arc" + d.id; });
 
 
       groupTextPath

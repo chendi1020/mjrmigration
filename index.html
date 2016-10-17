@@ -25,7 +25,8 @@
 	<hr>
 	</header>	
    
-
+<div id="college">
+    
 <select id = "opts">
 
     <option value="data2" >Agriculture and Natural Resources</option> 
@@ -48,7 +49,18 @@
 
   <!-- and so on... -->   
   </select>   
+      </div>
+      
 
+
+   
+
+
+ 
+
+      
+      
+      
 <!--script>
 function setActiveStyleSheet(delay) {
 var myElement = document.querySelector("#circle");
@@ -72,11 +84,11 @@ myElement.style.opacity = 0.25;
    
       
 <script>
-  
+    
  
     
     function graphic (data) {
-      var datafile = 'testjsonfile/newtest/'+data+ '.json';
+      var datafile = 'json/'+data+ '.json';
         
       var aLittleBit = Math.PI / 100000;
         
@@ -94,7 +106,7 @@ myElement.style.opacity = 0.25;
         layout: {
           threshold: 1,
           labelThreshold: 5,
-		  colors: '1f78b4 800026 00441b FF5733 33a02c 750657 e31a1c 00a592 41ae76 cab2d6 EEE81B 062975 80cdc1 5ACFDD e7298a 6a3d9a     062975'.split(' ').map(function(c) { return '#' + c; })
+		  colors: '1f78b4 800026 00441b FF5733 33a02c 750657 e31a1c 00a592 41ae76 461160 EEE81B 062975 80cdc1 5ACFDD e7298a 6a3d9a     062975'.split(' ').map(function(c) { return '#' + c; })
         }
       });
      Globalmigration.timeline(chart, {
@@ -108,7 +120,7 @@ myElement.style.opacity = 0.25;
     
     
    (function() {
-      var datafile = 'testjsonfile/newtest/data2.json';
+      var datafile = 'json/data2All.json';
         
       var aLittleBit = Math.PI / 100000;
  d3.json(datafile, function(data) {
@@ -124,7 +136,7 @@ myElement.style.opacity = 0.25;
         layout: {
           threshold: 1,
           labelThreshold: 5,
-		  colors: '1f78b4 800026 00441b FF5733 33a02c 750657 e31a1c 00a592 41ae76 cab2d6 EEE81B 062975 80cdc1 5ACFDD e7298a 6a3d9a     062975'.split(' ').map(function(c) { return '#' + c; })
+		  colors: '1f78b4 800026 00441b FF5733 33a02c 750657 e31a1c 00a592 41ae76 461160 EEE81B 062975 80cdc1 5ACFDD e7298a 6a3d9a     062975'.split(' ').map(function(c) { return '#' + c; })
         }
       });
      Globalmigration.timeline(chart, {
@@ -136,20 +148,42 @@ myElement.style.opacity = 0.25;
      });
     })();
     
+          //race dropdown
+ var race = ["All","White","Black", "Hispanic", "International", "Asian_Hawaii_PI", "Others"];
+   
+     
+    var raceselect = d3.select('#college').append('select').attr("id","race")
+                    .on('change', function(){
+                         var newData1 = d3.select(this).property('value');
+                           graphic('data2'+newData1);
+                    });
+    
+     var option= raceselect.selectAll("option").data(race);
+        option.enter().append('option').property("selected", function(d){return d==="All";})
+            .text(function (d) { return d; });
+       
+    
     
  d3.select('#opts')
   .on('change', function() {
-       
-           d3.selectAll("text").remove();
-     
         var newData = d3.select(this).property('value');
-        graphic(newData);
-      // console.log(y);
+       graphic(newData+'All');
+        
+       option.property("selected", function(d){return d==="All";})
+           .text(function (d) { return d; });
+        option.exit().remove();
     
+   
+        d3.select('#race').on('change',function(){
+            var a  = d3.select(this).property('value');
+           graphic(newData+a);
+     })
+        
+     
 });
 
  
-        
+       
    
 
 
@@ -158,7 +192,7 @@ myElement.style.opacity = 0.25;
 
  		<div class="license">
            
-		This visualization is updated on 10/7/2016
+		This visualization is updated on 10/17/2016
 		</div>
 		
 	</footer>

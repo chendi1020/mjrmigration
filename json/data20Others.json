@@ -1,0 +1,14 @@
+{
+ "names": [ "20-HUMAN ECOL", "2703-Apparel and Textile Design", "4-ARTS & LET", "5658-Apparel and Textile Design" ],
+"regions": [      0,      2 ],
+"matrix": {
+ "All": [ [ 0, 0, 1, 1 ],
+[ 0, 0, 1, 1 ],
+[ 0, 0, 0, 0 ],
+[ 0, 0, 0, 0 ] ],
+"2005": [ [ 0, 0, 1, 1 ],
+[ 0, 0, 1, 1 ],
+[ 0, 0, 0, 0 ],
+[ 0, 0, 0, 0 ] ] 
+} 
+}

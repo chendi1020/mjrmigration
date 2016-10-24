@@ -19,12 +19,13 @@ PAG <- sqldf("select a.*, b.Short_Name as COLLEGE_FIRST_NAME, c.Short_Name as CO
              left join COLLNM c 
              on a.COLLEGE_DEGREE=c.Coll_Code")
 
-firstcoll <- unique(PAG$COLLEGE_FIRST)
 
 
-for (k in firstcoll){
 
-data <- PAG[PAG$COLLEGE_FIRST==k,]
+
+
+#data <- PAG[PAG$COLLEGE_FIRST==k,]
+data <- PAG
 
 #recode those who have not graduated yet
 data$COLLEGE_DEGREE <- ifelse(is.na(data$COLLEGE_DEGREE),99, data$COLLEGE_DEGREE)
@@ -47,11 +48,11 @@ data$MAJOR_NAME_DEGREE <- paste(data$MAJOR_DEGREE, data$MAJOR_NAME_DEGREE, sep =
 #aggregation
 library(dplyr)
 
-Agg1 <- data %>% group_by(COHORT, COLLEGE_FIRST_NAME,COLLEGE_DEGREE_NAME ) %>% summarise(count=n())
+#Agg1 <- data %>% group_by(COHORT, COLLEGE_FIRST_NAME,COLLEGE_DEGREE_NAME ) %>% summarise(count=n())
 Agg2 <- data %>% group_by(COHORT, COLLEGE_FIRST_NAME,COLLEGE_DEGREE_NAME, MAJOR_NAME_FIRST,  MAJOR_NAME_DEGREE) %>% summarise(count=n())
-Agg3 <- data %>% group_by(COHORT,  MAJOR_NAME_FIRST,  MAJOR_NAME_DEGREE) %>% summarise(count=n())
-Agg4 <- data %>% group_by(COHORT, COLLEGE_FIRST_NAME,  MAJOR_NAME_DEGREE) %>% summarise(count=n())
-Agg5 <- data %>% group_by(COHORT, MAJOR_NAME_FIRST,  COLLEGE_DEGREE_NAME) %>% summarise(count=n())
+#Agg3 <- data %>% group_by(COHORT,  MAJOR_NAME_FIRST,  MAJOR_NAME_DEGREE) %>% summarise(count=n())
+#Agg4 <- data %>% group_by(COHORT, COLLEGE_FIRST_NAME,  MAJOR_NAME_DEGREE) %>% summarise(count=n())
+#Agg5 <- data %>% group_by(COHORT, MAJOR_NAME_FIRST,  COLLEGE_DEGREE_NAME) %>% summarise(count=n())
 
 DS1<- sqldf("select distinct COLLEGE_FIRST_NAME as coll, MAJOR_NAME_FIRST as mjr
             from Agg2
@@ -83,13 +84,27 @@ levels(DS2$org1) <- lvl
 
 
 
-names(Agg3)<-names(Agg1)
-names(Agg4) <- names(Agg1)
-names(Agg5) <- names(Agg1)
-mainds <- rbind(Agg1, Agg3, Agg4, Agg5)
+
+
+firstcoll <- unique(data$COLLEGE_FIRST_NAME)
+
+for (k in firstcoll){
+  Agg1 <- data %>% filter(COLLEGE_FIRST_NAME==k)%>%group_by(COHORT, COLLEGE_FIRST_NAME,COLLEGE_DEGREE_NAME ) %>% summarise(count=n())
+  Agg3 <- data %>% filter(COLLEGE_FIRST_NAME==k)%>%group_by(COHORT,  MAJOR_NAME_FIRST,  MAJOR_NAME_DEGREE) %>% summarise(count=n())
+  Agg4 <- data %>% filter(COLLEGE_FIRST_NAME==k) %>% group_by(COHORT, COLLEGE_FIRST_NAME,  MAJOR_NAME_DEGREE) %>% summarise(count=n())
+  Agg5 <- data %>% filter(COLLEGE_FIRST_NAME==k)%>% group_by(COHORT, MAJOR_NAME_FIRST,  COLLEGE_DEGREE_NAME) %>% summarise(count=n())        
+        
+  names(Agg3)<-names(Agg1)
+  names(Agg4) <- names(Agg1)
+  names(Agg5) <- names(Agg1)
+  mainds <- rbind(Agg1, Agg3, Agg4, Agg5)      
+        
+#mainds <- mainds.all[mainds.all$COLLEGE_FIRST_NAME==k,]        
 
 
 cohortseq <- unique(mainds$COHORT)
+
+
 
 #2005-2009
 DS2_2005_09 <- sqldf("select  a.org, a.org1, (case when b.count is null then 0 else b.count end) as count
@@ -166,7 +181,7 @@ require(RJSONIO)
 jsonOut<-toJSON(list)
 #cat(jsonOut)
 
-sink(paste('data',k, '.json', collapse ='', sep=""))
+sink(paste('data',substr(k,1, regexpr("-", k)-1), '.json', collapse ='', sep=""))
 cat(jsonOut)
 
 sink()
